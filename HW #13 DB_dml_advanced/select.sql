@@ -93,8 +93,9 @@ SELECT album_name AS an, COUNT(album_name)
        ON s.album_id = a.id
  GROUP BY an
 HAVING COUNT(album_name) = 
-            (SELECT min(an) FROM (SELECT album_name, COUNT(album_name) AS an
-               FROM album AS a
-                    JOIN song AS s 
-                    ON s.album_id = a.id
-              GROUP BY album_name) AS anc);
+            (SELECT MIN(anc.can) 
+               FROM (SELECT album_name AS an, COUNT(album_name) AS can
+                       FROM album AS a
+                            JOIN song AS s 
+                            ON s.album_id = a.id
+                      GROUP BY an) AS anc);
