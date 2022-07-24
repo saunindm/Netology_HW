@@ -8,15 +8,15 @@ with conn.cursor() as cur:
         cursor.execute("""
         CREATE TABLE IF NOT EXISTS client (
 	        id SERIAL PRIMARY KEY,
-	        first_name 	VARCHAR(30) NOT NULL,
-	        last_name 	VARCHAR(30) NOT NULL,
-	        email 		VARCHAR(30) UNIQUE NOT NULL	
+	        first_name VARCHAR(30) NOT NULL,
+	        last_name  VARCHAR(30) NOT NULL,
+	        email      VARCHAR(30) UNIQUE NOT NULL	
         );""")
         cursor.execute("""
         CREATE TABLE IF NOT EXISTS phone (
 	        id SERIAL PRIMARY KEY,
-	        person_id 		INTEGER 	REFERENCES client(id),
-	        phone_number 	VARCHAR(30) 
+	        person_id    INTEGER 	REFERENCES client(id),
+	        phone_number VARCHAR(30) 
         );""")
         conn.commit()
 
@@ -36,9 +36,9 @@ with conn.cursor() as cur:
         conn.commit()
         cursor.execute("""
         SELECT * 
-        FROM client;
+          FROM client;
         SELECT * 
-        FROM phone;
+          FROM phone;
         """)
         print(cursor.fetchall())
 
@@ -51,8 +51,8 @@ with conn.cursor() as cur:
         """, (person_id, phone_number))
         cursor.execute("""
         DELETE FROM phone
-        WHERE person_id=%s
-        AND phone_number IS NULL;
+         WHERE person_id=%s
+           AND phone_number IS NULL;
         """, (person_id, ))
         conn.commit()
         cursor.execute("""
