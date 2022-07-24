@@ -1,4 +1,4 @@
---1. количество исполнителей в каждом жанре
+--1. РєРѕР»РёС‡РµСЃС‚РІРѕ РёСЃРїРѕР»РЅРёС‚РµР»РµР№ РІ РєР°Р¶РґРѕРј Р¶Р°РЅСЂРµ
 SELECT g.genre_name, COUNT(a.artist_name) AS anc
   FROM artist a
        JOIN artist_genre AS ag 
@@ -8,7 +8,7 @@ SELECT g.genre_name, COUNT(a.artist_name) AS anc
  GROUP BY genre_name
  ORDER BY anc DESC;
 
---2. количество треков, вошедших в альбомы 2019-2020 годов
+--2. РєРѕР»РёС‡РµСЃС‚РІРѕ С‚СЂРµРєРѕРІ, РІРѕС€РµРґС€РёС… РІ Р°Р»СЊР±РѕРјС‹ 2019-2020 РіРѕРґРѕРІ
  SELECT COUNT(s.song_name) AS snc
    FROM song AS s
         JOIN album AS a 
@@ -17,14 +17,14 @@ SELECT g.genre_name, COUNT(a.artist_name) AS anc
 BETWEEN 2019 
     AND 2020;
     
---3. средняя продолжительность треков по каждому альбому
+--3. СЃСЂРµРґРЅСЏСЏ РїСЂРѕРґРѕР»Р¶РёС‚РµР»СЊРЅРѕСЃС‚СЊ С‚СЂРµРєРѕРІ РїРѕ РєР°Р¶РґРѕРјСѓ Р°Р»СЊР±РѕРјСѓ
 SELECT a.album_name AS an, AVG(s.duration_sec) AS avg_dur 
   FROM song AS s
        JOIN album AS a ON a.id = s.album_id 
  GROUP BY an
  ORDER BY avg_dur;
 
---4. все исполнители, которые не выпустили альбомы в 2020 году
+--4. РІСЃРµ РёСЃРїРѕР»РЅРёС‚РµР»Рё, РєРѕС‚РѕСЂС‹Рµ РЅРµ РІС‹РїСѓСЃС‚РёР»Рё Р°Р»СЊР±РѕРјС‹ РІ 2020 РіРѕРґСѓ
 SELECT artist_name
   FROM artist
  WHERE artist_name NOT IN 
@@ -36,7 +36,7 @@ SELECT artist_name
             ON al.id = aa.album_id
        WHERE al.release_year = 2020);
 
---5. названия сборников, в которых присутствует конкретный исполнитель (выберите сами)
+--5. РЅР°Р·РІР°РЅРёСЏ СЃР±РѕСЂРЅРёРєРѕРІ, РІ РєРѕС‚РѕСЂС‹С… РїСЂРёСЃСѓС‚СЃС‚РІСѓРµС‚ РєРѕРЅРєСЂРµС‚РЅС‹Р№ РёСЃРїРѕР»РЅРёС‚РµР»СЊ (РІС‹Р±РµСЂРёС‚Рµ СЃР°РјРё)
 SELECT DISTINCT collection_name AS cn
   FROM collection AS c
        JOIN song_collecion AS sc 
@@ -51,7 +51,7 @@ SELECT DISTINCT collection_name AS cn
        ON ar.id = aa.artist_id
  WHERE ar.artist_name = 'Will Nash';
  
---6. название альбомов, в которых присутствуют исполнители более 1 жанра
+--6. РЅР°Р·РІР°РЅРёРµ Р°Р»СЊР±РѕРјРѕРІ, РІ РєРѕС‚РѕСЂС‹С… РїСЂРёСЃСѓС‚СЃС‚РІСѓСЋС‚ РёСЃРїРѕР»РЅРёС‚РµР»Рё Р±РѕР»РµРµ 1 Р¶Р°РЅСЂР°
 SELECT al.album_name
   FROM album AS al
        JOIN artist_album AS aa
@@ -65,14 +65,14 @@ SELECT al.album_name
  GROUP BY al.album_name
 HAVING COUNT(DISTINCT g.genre_name) > 1;
 
---7. наименование треков, которые не входят в сборники
+--7. РЅР°РёРјРµРЅРѕРІР°РЅРёРµ С‚СЂРµРєРѕРІ, РєРѕС‚РѕСЂС‹Рµ РЅРµ РІС…РѕРґСЏС‚ РІ СЃР±РѕСЂРЅРёРєРё
 SELECT song_name AS sn
 FROM song AS s
 LEFT JOIN song_collecion AS sc
 ON sc.song_id = s.id
 WHERE sc.collection_id IS NULL;
 
---8. исполнителя(-ей), написавшего самый короткий по продолжительности трек (теоретически таких треков может быть несколько)
+--8. РёСЃРїРѕР»РЅРёС‚РµР»СЏ(-РµР№), РЅР°РїРёСЃР°РІС€РµРіРѕ СЃР°РјС‹Р№ РєРѕСЂРѕС‚РєРёР№ РїРѕ РїСЂРѕРґРѕР»Р¶РёС‚РµР»СЊРЅРѕСЃС‚Рё С‚СЂРµРє (С‚РµРѕСЂРµС‚РёС‡РµСЃРєРё С‚Р°РєРёС… С‚СЂРµРєРѕРІ РјРѕР¶РµС‚ Р±С‹С‚СЊ РЅРµСЃРєРѕР»СЊРєРѕ)
 SELECT ar.artist_name AS an, s.duration_sec
   FROM artist AS ar
        JOIN artist_album AS aa 
@@ -86,15 +86,16 @@ HAVING s.duration_sec =
        (SELECT MIN(duration_sec) 
           FROM song);
 
---9. название альбомов, содержащих наименьшее количество треков
+--9. РЅР°Р·РІР°РЅРёРµ Р°Р»СЊР±РѕРјРѕРІ, СЃРѕРґРµСЂР¶Р°С‰РёС… РЅР°РёРјРµРЅСЊС€РµРµ РєРѕР»РёС‡РµСЃС‚РІРѕ С‚СЂРµРєРѕРІ
 SELECT album_name AS an, COUNT(album_name)
   FROM album AS a
        JOIN song AS s 
        ON s.album_id = a.id
  GROUP BY an
 HAVING COUNT(album_name) = 
-            (SELECT min(an) FROM (SELECT album_name, COUNT(album_name) AS an
-               FROM album AS a
-                    JOIN song AS s 
-                    ON s.album_id = a.id
-              GROUP BY album_name) AS anc);
+            (SELECT MIN(anc.can) 
+               FROM (SELECT album_name AS an, COUNT(album_name) AS can
+                       FROM album AS a
+                            JOIN song AS s 
+                            ON s.album_id = a.id
+                      GROUP BY an) AS anc);
